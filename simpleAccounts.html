@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile and Settings</title>
+</head>
+
+<body>
+    <main id="main-accounts">
+        <style>
+            #main-accounts {
+                display: flex;
+                flex-direction: column;
+                margin: 10px auto;
+                padding: 10px;
+                width: 320px;
+                background-color: lightgrey;
+                border-radius: 5px;
+            }
+            
+            #main-accounts form {
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            
+            #main-accounts nav {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                background-color: rgb(190, 190, 190);
+                border-radius: 5px;
+            }
+            
+            #main-accounts nav button,
+            #main-accounts form * {
+                margin: 5px;
+                padding: 5px;
+                border-radius: 5px;
+            }
+            
+            #main-accounts h2,
+            #main-accounts h3 {
+                display: flex;
+                justify-content: center;
+            }
+            
+            #main-accounts form input:required:invalid {
+                background-color: lightsalmon;
+            }
+            
+            #main-accounts form button {
+                width: 50%;
+                margin: 5px auto;
+            }
+            
+            #main-accounts form {
+                display: none;
+            }
+        </style>
+        <h2>Accounts:</h2>
+        <nav>
+            <button id="button-login" onclick="showForms(this.id)">Login</button>
+            <button id="button-request-token" onclick="showForms(this.id)">Token</button>
+            <button id="button-update-profile" onclick="showForms(this.id)">Update</button>
+        </nav>
+        <h3 id="current-action"></h3>
+        <!-- REQUEST TOKEN -->
+        <form action="simpleAccounts.php" method="post" id="request-token-form">
+            <input type="email" name="email" placeholder="Your Email Here" required>
+            <input type="hidden" name="do-this" value="send-token">
+            <button>Request Token</button>
+        </form>
+        <!-- REQUEST TOKEN -->
+        <!-- UPDATE PROFILE -->
+        <form action="simpleAccounts.php" method="post" id="update-profile-form">
+            <input type="email" name="email" placeholder="Email" required>
+            <input type="password" name="password" id="password" placeholder="Create New Password" required>
+            <input type="password" name="repeat-password" id="repeat-password" placeholder="Repeat New Password" required>
+            <input type="text" name="token" placeholder="PASTE TOKEN HERE" required>
+            <input type="hidden" name="do-this" value="update-profile">
+            <button onclick="inputValueMatch('password','repeat-password');">Submit</button>
+        </form>
+        <!-- UPDATE PROFILE -->
+        <!-- LOGIN TOKEN -->
+        <form action="simpleAccounts.php" method="post" id="login-form">
+            <input type="email" name="email" placeholder="Your Email Here" required>
+            <input type="password" name="password" id="password" placeholder="Password" required>
+            <input type="hidden" name="do-this" value="login">
+            <button>Login</button>
+        </form>
+        <!-- LOGIN TOKEN -->
+
+        <script>
+            //shows the correct form to be used based on user selection, also styles the active button
+            function showForms(id) {
+                // Navbar button change
+                document.getElementById("button-request-token").style.backgroundColor = "revert";
+                document.getElementById("button-update-profile").style.backgroundColor = "revert";
+                document.getElementById("button-login").style.backgroundColor = "revert";
+
+                document.getElementById(id).style.backgroundColor = "lightgrey";
+                // document.getElementById(id).style.borderColor = "black";
+                //Change Title Above Forms
+                document.getElementById("current-action").innerHTML = document.getElementById(id).innerHTML;
+                //set forms to not display
+                document.getElementById("request-token-form").style.display = "none";
+                document.getElementById("update-profile-form").style.display = "none";
+                document.getElementById("login-form").style.display = "none";
+                //set correct form to display
+                let formId = id.replace("button-", "") + "-form";
+                document.getElementById(formId).style.display = "inherit";
+            }
+
+            function inputValueMatch(element1Id, element2Id) {
+                let element1 = document.getElementById(element1Id);
+                let element2 = document.getElementById(element2Id);
+                if (element1.value === element2.value) {
+                    element2.setCustomValidity('');
+                } else {
+                    element2.setCustomValidity('The ' + element1.type + 's do not match');
+                }
+            }
+        </script>
+    </main>
+
+</body>
+
+</html>
