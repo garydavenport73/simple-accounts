@@ -24,3 +24,7 @@ Inside the users email folder, the following files may be present:
 1) Hashed Password (uses standard PHP 7 PASSWORD_DEFAULT mechanism)
 2) Hashed Token
 3) Token Creation Time
+
+
+# Here is flow diagram:
+<img src="flowchart.png">
