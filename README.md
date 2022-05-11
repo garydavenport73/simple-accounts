@@ -26,5 +26,5 @@ Inside the users email folder, the following files may be present:
 3) Token Creation Time
 
 
-# Here is flow diagram:
+## Here is flow diagram:
 <img src="flowchart.png">
