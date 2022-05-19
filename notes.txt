@@ -1,0 +1,76 @@
+if (session_status() === PHP_SESSION_NONE){session_start();}
+
+<!-- if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+} -->
+
+ <?php
+ session_start();
+
+ if (isset($_SESSION['user'])) {
+ ?>
+   logged in HTML and code here
+ <?php
+
+ } else {
+   ?>
+   Not logged in HTML and code here
+   <?php
+ }
+
+########## LOGGED IN CONCEPT ##########
+
+to log in:
+-----------
+user sends login username and password
+
+        if correct, session variable set to logged in
+        logged in name is username
+
+        session sends script back session variable logged in
+        session sends script back of username
+
+
+on client side
+every page load, check for logged in and username
+if they are there
+display the username and log out
+
+
+to log out:
+-----------
+    change to logged out
+    end session
+    unset client session variable username and logged in to false
+
+
+to save data:
+-------------
+    form is sent with data
+    if user is logged in
+    save to database to usernames folder
+    maybe script back username and logged in
+
+to retrieve database
+------------:
+    fetch database
+        on server if logged in, return it
+        else return error
+
+
+########## USERNAME/PASSWORD CONCEPT ##########
+to get database
+fetch or ajax with username and password
+if username/password match send back database
+
+alert when successful or failed
+    (alternative would be to verify login and use
+    javascript sesssion storage if under 5mb)
+
+to save database
+submit form with username, password
+and hidden input with database.json
+
+alert user to save on exit
+
+
