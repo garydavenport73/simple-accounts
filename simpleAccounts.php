@@ -1,3 +1,8 @@
+<?php
+header('Access-Control-Allow-Origin: *');
+// header('Access-Control-Allow-Methods: GET, POST');
+// header("Access-Control-Allow-Headers: X-Requested-With");
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,6 +12,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account Management Message</title>
 </head>
+
 <?php
 
 function emailTokenMatch($email, $token)
@@ -73,7 +79,9 @@ function sendToken($email)
 ?>
 
 <body>
+hello
     <?php
+    echo "made it";
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($_POST["do-this"] === "login") {

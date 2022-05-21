@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <div id="demo">initial text</div>
+    <button onclick="testFetch()">Test Fetch</button>
+    <script>
+        function testFetch() {
+
+            document.getElementById("demo").innerHTML = "You're info is being requested";
+            document.getElementsByTagName("button")[0].disabled = true;
+            fetch("https://garydavenport.com/accountsTest/accountManagement.php")
+                .then(x => x.text())
+                .then(y => {
+                    console.log(y);
+                    document.getElementById("demo").innerHTML = y
+                    alert("your data was fetched");
+                    document.getElementsByTagName("button")[0].disabled = false;
+
+                })
+                .catch(error => {
+                    alert("data not fetched");
+                    console.log('API failure' + error);
+
+                });;
+
+        }
+    </script>
+</body>
+
+</html>

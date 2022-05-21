@@ -68,6 +68,14 @@
             <button id="button-update-profile" onclick="showForms(this.id)">Update</button>
         </nav>
         <h3 id="current-action"></h3>
+        <!-- LOGIN -->
+        <form action="simpleAccounts.php" method="post" id="login-form">
+            <input type="email" name="email" placeholder="Your Email Here" required>
+            <input type="password" name="password" id="password" placeholder="Password" required>
+            <input type="hidden" name="do-this" value="login">
+            <button>Login</button>
+        </form>
+        <!-- LOGIN -->
         <!-- REQUEST TOKEN -->
         <form action="simpleAccounts.php" method="post" id="request-token-form">
             <input type="email" name="email" placeholder="Your Email Here" required>
@@ -85,14 +93,6 @@
             <button onclick="inputValueMatch('password','repeat-password');">Submit</button>
         </form>
         <!-- UPDATE PROFILE -->
-        <!-- LOGIN TOKEN -->
-        <form action="simpleAccounts.php" method="post" id="login-form">
-            <input type="email" name="email" placeholder="Your Email Here" required>
-            <input type="password" name="password" id="password" placeholder="Password" required>
-            <input type="hidden" name="do-this" value="login">
-            <button>Login</button>
-        </form>
-        <!-- LOGIN TOKEN -->
 
         <script>
             //shows the correct form to be used based on user selection, also styles the active button
