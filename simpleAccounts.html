@@ -70,14 +70,16 @@
         <h3 id="current-action"></h3>
         <!-- LOGIN -->
         <form action="simpleAccounts.php" method="post" id="login-form">
+            <!-- https://garydavenport.com/simple-accounts/simpleAccounts.php -->
             <input type="email" name="email" placeholder="Your Email Here" required>
-            <input type="password" name="password" id="password" placeholder="Password" required>
+            <input type="password" name="password" placeholder="Password" required>
             <input type="hidden" name="do-this" value="login">
             <button>Login</button>
         </form>
         <!-- LOGIN -->
         <!-- REQUEST TOKEN -->
         <form action="simpleAccounts.php" method="post" id="request-token-form">
+            <!-- https://garydavenport.com/simple-accounts/simpleAccounts.php-->
             <input type="email" name="email" placeholder="Your Email Here" required>
             <input type="hidden" name="do-this" value="send-token">
             <button>Request Token</button>
@@ -85,6 +87,7 @@
         <!-- REQUEST TOKEN -->
         <!-- UPDATE PROFILE -->
         <form action="simpleAccounts.php" method="post" id="update-profile-form">
+            <!-- https://garydavenport.com/simple-accounts/simpleAccounts.php-->
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" id="password" placeholder="Create New Password" required>
             <input type="password" name="repeat-password" id="repeat-password" placeholder="Repeat New Password" required>

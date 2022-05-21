@@ -79,9 +79,9 @@ function sendToken($email)
 ?>
 
 <body>
-hello
+minimal response for any POST here
     <?php
-    echo "made it";
+    //var_dump($_POST);
 
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($_POST["do-this"] === "login") {
