@@ -16,7 +16,7 @@
         function testFetch() {
 
             document.getElementById("demo").innerHTML = "You're info is being requested";
-            document.getElementsByTagName("button")[0].disabled = true;
+            document.getElementsByTagName("html")[0].style.display = "none";
             fetch("https://garydavenport.com/accountsTest/accountManagement.php")
                 .then(x => x.text())
                 .then(y => {
@@ -24,6 +24,8 @@
                     document.getElementById("demo").innerHTML = y
                     alert("your data was fetched");
                     document.getElementsByTagName("button")[0].disabled = false;
+                    document.getElementsByTagName("html")[0].style.display = "unset";
+
 
                 })
                 .catch(error => {
