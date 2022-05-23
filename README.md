@@ -1,7 +1,7 @@
 # simpleAccounts
-Minimal login access to website with email and password.
+Minimal account access to website with email and password.
 
-<img src="screenshot.png">
+<img src="screenshot2.png">
 
 - Must change the `action="simpleAccounts.php"` to whatever url address you want.
 - Normally I would place the simpleAccounts.html and simpleAccounts.php in the same directory if hosting on a web server.
