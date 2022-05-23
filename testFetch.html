@@ -10,49 +10,26 @@
 
 <body>
 
-    <form id="my-form">
+    <form id="remote-data-request-form">
         <div id="demo">initial text</div>
-        <input id="loginEmail" type="text" name="email" placeholder="Email">
-        <input id="loginPassword" type="password" name="password" placeholder="Password">
-        <!-- <button onclick="testFetch(e)">Test Fetch</button> -->
-        <button onclick="testFetch()">Test Fetch</button>
+        <input id="remote-data-request-email" type="text" name="email" placeholder="Email">
+        <input id="remote-data-request-password" type="password" name="password" placeholder="Password">
+        <button onclick="requestRemoteData()">Test Fetch</button>
     </form>
     <script>
-        var form = document.getElementById('my-form');
-        form.onsubmit = function(e) {
+        let dataRequestForm = document.getElementById('remote-data-request-form');
+        dataRequestForm.onsubmit = function(e) {
             e.preventDefault();
         };
 
-        function testFetch() {
+        function requestRemoteData() {
 
-
-            //var form = document.getElementById('my-form'); // Send a message when the form is submitted. form.onsubmit = function(e) { //Do something... e.preventDefault(); };
-
-
-            // document.getElementById("demo").innerHTML = "You're info is being requested";
-            // document.getElementsByTagName("html")[0].style.display = "none";
-            // fetch("https://garydavenport.com/accountsTest/accountManagement.php")
-            //     .then(x => x.text())
-            //     .then(y => {
-            //         console.log(y);
-            //         document.getElementById("demo").innerHTML = y
-            //         alert("your data was fetched");
-            //         document.getElementsByTagName("button")[0].disabled = false;
-            //         document.getElementsByTagName("html")[0].style.display = "unset";
-
-
-            //     })
-            //     .catch(error => {
-            //         alert("data not fetched");
-            //         console.log('API failure' + error);
-
-            //     });;
-
-            var http = new XMLHttpRequest();
-            var email = document.getElementById('loginEmail').value;
-            var password = document.getElementById('loginPassword').value;
-            var url = 'https://garydavenport.com/simple-accounts/simpleAccounts.php';
-            var params = 'email=' + email + '&password=' + password + '&do-this=login';
+            let http = new XMLHttpRequest();
+            let email = document.getElementById('remote-data-request-email').value;
+            let password = document.getElementById('remote-data-request-password').value;
+            //let url = 'https://garydavenport.com/simple-accounts/simpleAccounts.php';
+            let url = 'simpleAccounts.php';
+            let params = 'email=' + email + '&password=' + password + '&do-this=login';
             http.open('POST', url, true);
 
             //Send the proper header information along with the request
@@ -68,35 +45,6 @@
             http.send(params);
         }
     </script>
-
-
-    <!-- // Input values will be grabbed by ID
-    <input id="loginEmail" type="text" name="email" placeholder="Email">
-    <input id="loginPassword" type="password" name="password" placeholder="Password"> // return stops normal action and runs login()
-    <button onclick="return login()">Submit</button>
-
-    <script>
-        function login() {
-            // Form fields, see IDs above
-            const params = {
-                email: document.querySelector('#loginEmail').value,
-                password: document.querySelector('#loginPassword').value
-            }
-
-            const http = new XMLHttpRequest()
-            http.open('POST', 'https://garydavenport.com/simple-accounts/simpleAccounts.php', true) //true may be ommitted
-            http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            //http.setRequestHeader('Content-type', 'application/json')
-            http.send(JSON.stringify(params)) // Make sure to stringify
-            http.onload = function() {
-                // Do whatever with response
-                alert(http.responseText)
-            }
-        }
-    </script> -->
-
-
-
 
 </body>
 
