@@ -63,31 +63,32 @@
         </style>
         <h2>Accounts:</h2>
         <nav>
-            <button id="button-login" onclick="showForms(this.id)">Login</button>
+            <button id="button-test" onclick="showForms(this.id)">Test</button>
             <button id="button-request-token" onclick="showForms(this.id)">Token</button>
             <button id="button-update-profile" onclick="showForms(this.id)">Update</button>
         </nav>
         <h3 id="current-action"></h3>
-        <!-- LOGIN -->
-        <form action="simpleAccounts.php" method="post" id="login-form">
-            <!-- https://garydavenport.com/simple-accounts/simpleAccounts.php -->
+        <!-- TEST -->
+        <!-- <form action="simpleAccounts.php" method="post" id="test-form"> -->
+        <form action="https://yoursite.com/simple-accounts/simpleAccounts.php" method="post" id="test-form">
             <input type="email" name="email" placeholder="Your Email Here" required>
             <input type="password" name="password" placeholder="Password" required>
-            <input type="hidden" name="do-this" value="login">
-            <button>Login</button>
+            <input type="hidden" name="do-this" value="test">
+            <button>Test</button>
         </form>
-        <!-- LOGIN -->
+        <!-- TEST -->
         <!-- REQUEST TOKEN -->
-        <form action="simpleAccounts.php" method="post" id="request-token-form">
-            <!-- https://garydavenport.com/simple-accounts/simpleAccounts.php-->
+        <!-- <form action="simpleAccounts.php" method="post" id="request-token-form"> -->
+        <form action="https://yoursite.com/simple-accounts/simpleAccounts.php" method="post" id="request-token-form">
+
             <input type="email" name="email" placeholder="Your Email Here" required>
             <input type="hidden" name="do-this" value="send-token">
             <button>Request Token</button>
         </form>
         <!-- REQUEST TOKEN -->
         <!-- UPDATE PROFILE -->
-        <form action="simpleAccounts.php" method="post" id="update-profile-form">
-            <!-- https://garydavenport.com/simple-accounts/simpleAccounts.php-->
+        <!-- <form action="simpleAccounts.php" method="post" id="update-profile-form"> -->
+        <form action="https://yoursite.com/simple-accounts/simpleAccounts.php" method="post" id="update-profile-form">
             <input type="email" name="email" placeholder="Email" required>
             <input type="password" name="password" id="password" placeholder="Create New Password" required>
             <input type="password" name="repeat-password" id="repeat-password" placeholder="Repeat New Password" required>
@@ -98,12 +99,22 @@
         <!-- UPDATE PROFILE -->
 
         <script>
-            //shows the correct form to be used based on user selection, also styles the active button
+            window.onpageshow = function() {
+                    document.getElementById("button-request-token").style.backgroundColor = "revert";
+                    document.getElementById("button-update-profile").style.backgroundColor = "revert";
+                    document.getElementById("button-test").style.backgroundColor = "revert";
+                    document.getElementById("request-token-form").style.display = "none";
+                    document.getElementById("update-profile-form").style.display = "none";
+                    document.getElementById("test-form").style.display = "none";
+                    document.getElementById("current-action").innerHTML = "";
+                }
+                //shows the correct form to be used based on user selection, also styles the active button
             function showForms(id) {
+                clearForms();
                 // Navbar button change
                 document.getElementById("button-request-token").style.backgroundColor = "revert";
                 document.getElementById("button-update-profile").style.backgroundColor = "revert";
-                document.getElementById("button-login").style.backgroundColor = "revert";
+                document.getElementById("button-test").style.backgroundColor = "revert";
 
                 document.getElementById(id).style.backgroundColor = "lightgrey";
                 // document.getElementById(id).style.borderColor = "black";
@@ -112,7 +123,7 @@
                 //set forms to not display
                 document.getElementById("request-token-form").style.display = "none";
                 document.getElementById("update-profile-form").style.display = "none";
-                document.getElementById("login-form").style.display = "none";
+                document.getElementById("test-form").style.display = "none";
                 //set correct form to display
                 let formId = id.replace("button-", "") + "-form";
                 document.getElementById(formId).style.display = "inherit";
@@ -127,9 +138,19 @@
                     element2.setCustomValidity('The ' + element1.type + 's do not match');
                 }
             }
+
+            function clearForms() {
+                inputs = document.getElementsByTagName("input");
+                for (let i = 0; i < inputs.length; i++) {
+                    //inputs[i].innerHTML = "";
+                    if (inputs[i].name != "do-this") {
+                        inputs[i].value = "";
+                    }
+                    console.log(inputs[i]);
+                }
+            }
         </script>
     </main>
-
 </body>
 
 </html>

@@ -2,6 +2,7 @@
 header('Access-Control-Allow-Origin: *');
 // header('Access-Control-Allow-Methods: GET, POST');
 // header("Access-Control-Allow-Headers: X-Requested-With");
+sleep(0.3);
 ?>
 
 <?php
@@ -80,16 +81,14 @@ $webPagePart1 = "<!DOCTYPE html>
 $webPagePart2 = "</body>
     </html>";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // echo "minimal response for any POST here<br>";
-    // var_dump($_POST);
-    if ($_POST["do-this"] === "login") {
+    if ($_POST["do-this"] === "test") {
         echo $webPagePart1;
-        echo "<h2>Login Test:</h2>";
+        echo "<h2>Test:</h2>";
         $email = strtolower($_POST["email"]);
         if (emailPasswordMatch($email, $_POST["password"])) {
-            echo "<p>The email and password match.</p>";
+            echo "<p>Credentials verified.</p>";
         } else {
-            echo "<p>The email and password do not match.</p>";
+            echo "<p>Credentials are invalid.</p>";
         };
         echo $webPagePart2;
         echo "<button onclick='window.history.back()'>OK</button>";
@@ -143,7 +142,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<h2>Save Contents to File:</h2>";
         //if (emailPasswordMatch($email, $_POST["password"])) {
         //limits to only one single allowable file and under 1 MB.
-        if ((emailPasswordMatch($email, $_POST["password"])  && ($filename === "database.txt") && (strlen($contents) < 1048576))) {
+        if ((emailPasswordMatch($email, $_POST["password"])  && ($filename === "data.txt") && (strlen($contents) < 1048576))) {
             if (!file_exists("users/$email/data")) {
                 mkdir("users/$email/data", 0777); //should be 0770 when publishing but can be 0777 on locally secured computer
             }
