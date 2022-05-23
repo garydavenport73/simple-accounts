@@ -123,6 +123,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<button onclick='window.history.back()'>OK</button>";
     } else if ($_POST["do-this"] === "send-data-to-client") {
         $email = strtolower($_POST["email"]);
+        if (isset($_POST["username"])){
+            $email = $_POST["username"];
+        }
         if (emailPasswordMatch($email, $_POST["password"])) {
             $filename = $_POST["filename"];
             if (!file_exists("users/$email/data/$filename")) {
@@ -134,12 +137,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             echo "Request rejected.";
         };
     } else if ($_POST["do-this"] === "save-contents-to-file") {
-        var_dump($_POST);
         $email = strtolower($_POST["email"]);
+        if (isset($_POST["username"])){
+            $email = $_POST["username"];
+        }
         $filename = $_POST["filename"];
         $contents = $_POST["contents"];
-        echo $webPagePart1;
-        echo "<h2>Save Contents to File:</h2>";
         //if (emailPasswordMatch($email, $_POST["password"])) {
         //limits to only one single allowable file and under 1 MB.
         if ((emailPasswordMatch($email, $_POST["password"])  && ($filename === "data.txt") && (strlen($contents) < 1048576))) {
@@ -147,12 +150,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 mkdir("users/$email/data", 0777); //should be 0770 when publishing but can be 0777 on locally secured computer
             }
             file_put_contents("users/$email/data/$filename", $contents);
-            echo "<p>Request was successful.</p>";
+            echo "Request was successful.";
         } else {
-            echo "<p>Request was not successful.</p>";
+            echo "Request was not successful.";
         }
-        echo $webPagePart2;
-        echo "<button onclick='window.history.back()'>OK</button>";;
     }
 }
 ?>

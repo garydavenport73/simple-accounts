@@ -11,66 +11,85 @@
 <body>
 
     <form id="remote-data-request-form">
-        <div id="demo">initial text</div>
         <input id="remote-data-request-email" type="text" name="email" placeholder="Email">
         <input id="remote-data-request-password" type="password" name="password" placeholder="Password">
         <input id="remote-data-request-filename" type="text" name="filename" placeholder="filename">
         <button onclick="requestRemoteData()">Request Data</button>
     </form>
 
-    <form action="simpleAccounts.php" method="post" id="remote-data-send-form">
+    <form id="remote-data-send-form">
         <input id="remote-data-send-email" type="text" name="email" placeholder="Email">
         <input id="remote-data-send-password" type="password" name="password" placeholder="Password">
         <input id="remote-data-send-filename" type="text" name="filename" placeholder="filename">
         <input id="remote-data-send-contents" type="text" name="contents" placeholder="contents">
-        <input type="hidden" name="do-this" value="save-contents-to-file">
-        <button>Send Data</button>
+        <button onclick="sendRemoteData()">Send Data</button>
     </form>
 
     <script>
         let titleElement = document.getElementsByTagName("title")[0];
         let defaultTitle = titleElement.innerHTML;
+
+        //prevent form from navigating to page
         let dataRequestForm = document.getElementById('remote-data-request-form');
         dataRequestForm.onsubmit = function(e) {
             e.preventDefault();
         };
+        let dataSendForm = document.getElementById('remote-data-send-form');
+        dataSendForm.onsubmit = function(e) {
+            e.preventDefault();
+        }
+
+        function sendRemoteData() {
+            {
+                let http = new XMLHttpRequest();
+                http.timeout = 2000; // time in milliseconds
+                let email = document.getElementById('remote-data-send-email').value;
+                let password = document.getElementById('remote-data-send-password').value;
+                let filename = document.getElementById('remote-data-send-filename').value;
+                let contents = document.getElementById('remote-data-send-contents').value;
+                let url = 'https://garydavenport.com/simple-accounts/simpleAccounts.php';
+
+                // let url = 'simpleAccounts.php';
+                let params = 'email=' + email + '&password=' + password + '&do-this=save-contents-to-file' + '&filename=' + filename + '&contents=' + contents;
+
+                http.ontimeout = function(e) {
+                    alert("The request timed out.");
+                };
+
+                http.open('POST', url, true);
+                http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                http.onreadystatechange = function() {
+                    if (http.readyState == 4 && http.status == 200) {
+                        console.log(http.responseText);
+                        alert(http.responseText);
+                    }
+                }
+                http.send(params);
+            }
+        }
 
         function requestRemoteData() {
-
-            //document.getElementsByTagName("html")[0].style.display = "none";
-
             let http = new XMLHttpRequest();
             http.timeout = 2000; // time in milliseconds
             let email = document.getElementById('remote-data-request-email').value;
             let password = document.getElementById('remote-data-request-password').value;
             let filename = document.getElementById('remote-data-request-filename').value;
-            //let url = 'https://garydavenport.com/simple-accounts/simpleAccounts.php';
-            let url = 'simpleAccounts.php';
+            let url = 'https://garydavenport.com/simple-accounts/simpleAccounts.php';
+            //let url = 'simpleAccounts.php';
             let params = 'email=' + email + '&password=' + password + '&do-this=send-data-to-client' + '&filename=' + filename;
 
             http.ontimeout = function(e) {
                 alert("The request timed out.");
-                //document.getElementsByTagName("html")[0].style.display = "unset";
             };
 
             http.open('POST', url, true);
 
-            //Send the proper header information along with the request
             http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
 
-            http.onreadystatechange = function() { //Call a function when the state changes.
+            http.onreadystatechange = function() {
                 if (http.readyState == 4 && http.status == 200) {
-                    document.getElementById("demo").innerHTML = http.responseText;
                     console.log(http.responseText);
-                    console.log(http.responseText.trim() === "Request rejected.");
-
-                    if ((http.responseText.trim() === "Request rejected.") || (http.responseText.trim() === "File not found.")) {
-                        alert(http.responseText);
-                    } else {
-                        alert("Loaded the contents of file: " + filename);
-                        titleElement.innerHTML = defaultTitle + " --- " + email + " --- " + filename;
-                    }
-                    //document.getElementsByTagName("html")[0].style.display = "unset";
+                    alert("Response received:\n" + http.responseText);
                 }
             }
             http.send(params);
