@@ -49,6 +49,7 @@
                 let contents = document.getElementById('remote-data-send-contents').value;
                 let url = 'https://garydavenport.com/simple-accounts/simpleAccounts.php';
 
+                contents = encodeURIComponent(contents);
                 // let url = 'simpleAccounts.php';
                 let params = 'email=' + email + '&password=' + password + '&do-this=save-contents-to-file' + '&filename=' + filename + '&contents=' + contents;
 
@@ -77,19 +78,16 @@
             let url = 'https://garydavenport.com/simple-accounts/simpleAccounts.php';
             //let url = 'simpleAccounts.php';
             let params = 'email=' + email + '&password=' + password + '&do-this=send-data-to-client' + '&filename=' + filename;
-
             http.ontimeout = function(e) {
                 alert("The request timed out.");
             };
-
             http.open('POST', url, true);
-
             http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-
             http.onreadystatechange = function() {
                 if (http.readyState == 4 && http.status == 200) {
-                    console.log(http.responseText);
-                    alert("Response received:\n" + http.responseText);
+                    result = decodeURIComponent(http.responseText);
+                    console.log(result);
+                    alert("Response received:\n" + result);
                 }
             }
             http.send(params);
