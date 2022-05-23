@@ -80,8 +80,8 @@ $webPagePart1 = "<!DOCTYPE html>
 $webPagePart2 = "</body>
     </html>";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    echo "minimal response for any POST here<br>";
-    var_dump($_POST);
+    // echo "minimal response for any POST here<br>";
+    // var_dump($_POST);
     if ($_POST["do-this"] === "login") {
         echo $webPagePart1;
         echo "<h2>Login Test:</h2>";
@@ -122,6 +122,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             "<p>(Note: if a token has already been issued in the last 10 minutes, another will not be sent.)</p>";
         echo $webPagePart2;
         echo "<button onclick='window.history.back()'>OK</button>";
+    } else if ($_POST["do-this"] === "send-data-to-client") {
+        $email = strtolower($_POST["email"]);
+        if (emailPasswordMatch($email, $_POST["password"])) {
+            $filename = $_POST["filename"];
+            if (!file_exists("users/$email/data/$filename")) {
+                echo "File not found.";
+            } else {
+                echo file_get_contents("users/$email/data/$filename");
+            }
+        } else {
+            echo "Request rejected.";
+        };
+    } else if ($_POST["do-this"] === "save-contents-to-file") {
+        var_dump($_POST);
+        $email = strtolower($_POST["email"]);
+        $filename = $_POST["filename"];
+        $contents = $_POST["contents"];
+        echo $webPagePart1;
+        echo "<h2>Save Contents to File:</h2>";
+        //if (emailPasswordMatch($email, $_POST["password"])) {
+        //limits to only one single allowable file and under 1 MB.
+        if ((emailPasswordMatch($email, $_POST["password"])  && ($filename === "database.txt") && (strlen($contents) < 1048576))) {
+            if (!file_exists("users/$email/data")) {
+                mkdir("users/$email/data", 0777); //should be 0770 when publishing but can be 0777 on locally secured computer
+            }
+            file_put_contents("users/$email/data/$filename", $contents);
+            echo "<p>Request was successful.</p>";
+        } else {
+            echo "<p>Request was not successful.</p>";
+        }
+        echo $webPagePart2;
+        echo "<button onclick='window.history.back()'>OK</button>";;
     }
 }
 ?>
