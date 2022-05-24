@@ -69,31 +69,26 @@
         </nav>
         <h3 id="current-action"></h3>
         <!-- TEST -->
-        <!-- <form action="simpleAccounts.php" method="post" id="test-form"> -->
-        <form action="https://yoursite.com/simple-accounts/simpleAccounts.php" method="post" id="test-form">
-            <input type="email" name="email" placeholder="Your Email Here" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <input type="hidden" name="do-this" value="test">
+        <form id="test-form" onsubmit="event.preventDefault(); test();">
+            <input type="email" id="test-form-email" placeholder="Your Email Here" required>
+            <input type="password" id="test-form-password" placeholder="Password" required>
             <button>Test</button>
         </form>
         <!-- TEST -->
-        <!-- REQUEST TOKEN -->
-        <!-- <form action="simpleAccounts.php" method="post" id="request-token-form"> -->
-        <form action="https://yoursite.com/simple-accounts/simpleAccounts.php" method="post" id="request-token-form">
 
-            <input type="email" name="email" placeholder="Your Email Here" required>
-            <input type="hidden" name="do-this" value="send-token">
+        <!-- REQUEST TOKEN -->
+        <form id="request-token-form" onsubmit="event.preventDefault(); requestToken();">
+            <input type="email" id="request-token-form-email" placeholder="Your Email Here" required>
             <button>Request Token</button>
         </form>
         <!-- REQUEST TOKEN -->
+
         <!-- UPDATE PROFILE -->
-        <!-- <form action="simpleAccounts.php" method="post" id="update-profile-form"> -->
-        <form action="https://yoursite.com/simple-accounts/simpleAccounts.php" method="post" id="update-profile-form">
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" id="password" placeholder="Create New Password" required>
-            <input type="password" name="repeat-password" id="repeat-password" placeholder="Repeat New Password" required>
-            <input type="text" name="token" placeholder="PASTE TOKEN HERE" required>
-            <input type="hidden" name="do-this" value="update-profile">
+        <form id="update-profile-form" onsubmit="event.preventDefault(); updateProfile();">
+            <input type="email" id="update-profile-form-email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Create New Password" required>
+            <input type="password" id="repeat-password" placeholder="Repeat New Password" required>
+            <input type="text" id="token" placeholder="PASTE TOKEN HERE" required>
             <button onclick="inputValueMatch('password','repeat-password');">Submit</button>
         </form>
         <!-- UPDATE PROFILE -->
@@ -126,7 +121,7 @@
                 document.getElementById("test-form").style.display = "none";
                 //set correct form to display
                 let formId = id.replace("button-", "") + "-form";
-                document.getElementById(formId).style.display = "inherit";
+                document.getElementById(formId).style.display = "flex";
             }
 
             function inputValueMatch(element1Id, element2Id) {
@@ -148,6 +143,72 @@
                     }
                     console.log(inputs[i]);
                 }
+            }
+
+            function test() {
+                let http = new XMLHttpRequest();
+                http.timeout = 2000; // time in milliseconds
+                let email = encodeURIComponent(document.getElementById('test-form-email').value);
+                let password = encodeURIComponent(document.getElementById('test-form-password').value);
+                let url = 'https://garydavenport.com/logtime/simpleAccounts.php';
+                //let url = 'simpleAccounts.php';
+                let params = 'email=' + email + '&password=' + password + '&do-this=test';
+                http.ontimeout = function(e) {
+                    alert("The request timed out.");
+                };
+                http.open('POST', url, true);
+                http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                http.onreadystatechange = function() {
+                    if (http.readyState == 4 && http.status == 200) {
+                        console.log(http.responseText);
+                        alert("Response received:\n" + http.responseText);
+                    }
+                }
+                http.send(params);
+            }
+
+            function requestToken() {
+                let http = new XMLHttpRequest();
+                http.timeout = 2000; // time in milliseconds
+                let email = encodeURIComponent(document.getElementById('request-token-form-email').value);
+                let url = 'https://garydavenport.com/logtime/simpleAccounts.php';
+                //let url = 'simpleAccounts.php';
+                let params = 'email=' + email + '&do-this=send-token';
+                http.ontimeout = function(e) {
+                    alert("The request timed out.");
+                };
+                http.open('POST', url, true);
+                http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                http.onreadystatechange = function() {
+                    if (http.readyState == 4 && http.status == 200) {
+                        console.log(http.responseText);
+                        alert("Response received:\n" + http.responseText);
+                    }
+                }
+                http.send(params);
+            }
+
+            function updateProfile() {
+                let http = new XMLHttpRequest();
+                http.timeout = 2000; // time in milliseconds
+                let email = encodeURIComponent(document.getElementById('update-profile-form-email').value);
+                let password = encodeURIComponent(document.getElementById('password').value);
+                let token = encodeURIComponent(document.getElementById('token').value);
+                let url = 'https://garydavenport.com/logtime/simpleAccounts.php';
+                //let url = 'simpleAccounts.php';
+                let params = 'email=' + email + '&password=' + password + '&token=' + token + '&do-this=update-profile';
+                http.ontimeout = function(e) {
+                    alert("The request timed out.");
+                };
+                http.open('POST', url, true);
+                http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                http.onreadystatechange = function() {
+                    if (http.readyState == 4 && http.status == 200) {
+                        console.log(http.responseText);
+                        alert("Response received:\n" + http.responseText);
+                    }
+                }
+                http.send(params);
             }
         </script>
     </main>

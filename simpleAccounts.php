@@ -82,45 +82,33 @@ $webPagePart2 = "</body>
     </html>";
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($_POST["do-this"] === "test") {
-        echo $webPagePart1;
-        echo "<h2>Test:</h2>";
         $email = strtolower($_POST["email"]);
         if (emailPasswordMatch($email, $_POST["password"])) {
-            echo "<p>Credentials verified.</p>";
+            echo "Credentials verified.";
         } else {
-            echo "<p>Credentials are invalid.</p>";
+            echo "Credentials are invalid.";
         };
-        echo $webPagePart2;
-        echo "<button onclick='window.history.back()'>OK</button>";
     } else if ($_POST["do-this"] === "update-profile") {
-        echo $webPagePart1;
-        echo "<h2>Request Result:</h2>";
         $email = strtolower($_POST["email"]);
         $token = $_POST["token"];
         if (emailTokenMatch($email, $token) && unexpiredToken($email, 10)) {
             file_put_contents("users/$email/password", password_hash($_POST["password"], PASSWORD_DEFAULT));
             unlink("users/$email/token");
-            echo "<p>Request was successful.</p>";
+            echo "Request was successful.";
         } else {
-            echo "<p>Request was not succuessful.</p>";
+            echo "Request was not succuessful.";
         }
-        echo $webPagePart2;
-        echo "<button onclick='window.history.back()'>OK</button>";
     } else if ($_POST["do-this"] === "send-token") { //send a token
-        echo $webPagePart1;
-        echo "<h2>Token Requested.</h2>";
         $email = strtolower($_POST["email"]);
         if (unexpiredToken("$email", 10)) {
             //do nothing
         } else {
             $token = sendToken($email);
         }
-        echo "<p>A request to send a token to $email has been made.</p>" .
-            "<p>Check your email $email for the token.</p>" . "(testing purposes: $token)</p>" .
-            "<p>Tokens are good for 10 minutes.</p>" .
-            "<p>(Note: if a token has already been issued in the last 10 minutes, another will not be sent.)</p>";
-        echo $webPagePart2;
-        echo "<button onclick='window.history.back()'>OK</button>";
+        echo "A request to send a token to $email has been made.  " .
+            "Check your email $email for the token." . // "(testing purposes: $token).  " .
+            "Tokens are good for 10 minutes.  " .
+            "(Note: if a token has already been issued in the last 10 minutes, another will not be sent.)";
     } else if ($_POST["do-this"] === "send-data-to-client") {
         $email = strtolower($_POST["email"]);
         if (isset($_POST["username"])){ //used for processing spaid application where username key is used instead of email
