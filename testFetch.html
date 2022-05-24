@@ -43,15 +43,14 @@
             {
                 let http = new XMLHttpRequest();
                 http.timeout = 2000; // time in milliseconds
-                let email = document.getElementById('remote-data-send-email').value;
-                let password = document.getElementById('remote-data-send-password').value;
-                let filename = document.getElementById('remote-data-send-filename').value;
-                let contents = document.getElementById('remote-data-send-contents').value;
+                let email = encodeURIComponent(document.getElementById('remote-data-send-email').value);
+                let password = encodeURIComponent(document.getElementById('remote-data-send-password').value);
+                let filename = encodeURIComponent(document.getElementById('remote-data-send-filename').value);
+                let contents = encodeURIComponent(document.getElementById('remote-data-send-contents').value);
                 let url = 'https://garydavenport.com/simple-accounts/simpleAccounts.php';
 
-                contents = encodeURIComponent(contents);
                 // let url = 'simpleAccounts.php';
-                let params = 'email=' + email + '&password=' + password + '&do-this=save-contents-to-file' + '&filename=' + filename + '&contents=' + contents;
+                let params = 'email=' + email + '&password=' + password + '&filename=' + filename + '&contents=' + contents + '&do-this=save-contents-to-file';
 
                 http.ontimeout = function(e) {
                     alert("The request timed out.");
@@ -72,12 +71,12 @@
         function requestRemoteData() {
             let http = new XMLHttpRequest();
             http.timeout = 2000; // time in milliseconds
-            let email = document.getElementById('remote-data-request-email').value;
-            let password = document.getElementById('remote-data-request-password').value;
-            let filename = document.getElementById('remote-data-request-filename').value;
+            let email = encodeURIComponent(document.getElementById('remote-data-request-email').value);
+            let password = encodeURIComponent(document.getElementById('remote-data-request-password').value);
+            let filename = encodeURIComponent(document.getElementById('remote-data-request-filename').value);
             let url = 'https://garydavenport.com/simple-accounts/simpleAccounts.php';
             //let url = 'simpleAccounts.php';
-            let params = 'email=' + email + '&password=' + password + '&do-this=send-data-to-client' + '&filename=' + filename;
+            let params = 'email=' + email + '&password=' + password + '&filename=' + filename + '&do-this=send-data-to-client';
             http.ontimeout = function(e) {
                 alert("The request timed out.");
             };
@@ -85,9 +84,8 @@
             http.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
             http.onreadystatechange = function() {
                 if (http.readyState == 4 && http.status == 200) {
-                    result = decodeURIComponent(http.responseText);
-                    console.log(result);
-                    alert("Response received:\n" + result);
+                    console.log(http.responseText);
+                    alert("Response received:\n" + http.responseText);
                 }
             }
             http.send(params);
