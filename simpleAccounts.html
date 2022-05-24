@@ -61,6 +61,7 @@
                 display: none;
             }
         </style>
+
         <h2>Accounts:</h2>
         <nav>
             <button id="button-test" onclick="showForms(this.id)">Test</button>
@@ -68,6 +69,7 @@
             <button id="button-update-profile" onclick="showForms(this.id)">Update</button>
         </nav>
         <h3 id="current-action"></h3>
+
         <!-- TEST -->
         <form id="test-form" onsubmit="event.preventDefault(); test();">
             <input type="email" id="test-form-email" placeholder="Your Email Here" required>
@@ -94,16 +96,7 @@
         <!-- UPDATE PROFILE -->
 
         <script>
-            window.onpageshow = function() {
-                    document.getElementById("button-request-token").style.backgroundColor = "revert";
-                    document.getElementById("button-update-profile").style.backgroundColor = "revert";
-                    document.getElementById("button-test").style.backgroundColor = "revert";
-                    document.getElementById("request-token-form").style.display = "none";
-                    document.getElementById("update-profile-form").style.display = "none";
-                    document.getElementById("test-form").style.display = "none";
-                    document.getElementById("current-action").innerHTML = "";
-                }
-                //shows the correct form to be used based on user selection, also styles the active button
+            //shows the correct form to be used based on user selection, also styles the active button
             function showForms(id) {
                 clearForms();
                 // Navbar button change
@@ -135,13 +128,9 @@
             }
 
             function clearForms() {
-                inputs = document.getElementsByTagName("input");
+                inputs = ["test-form-email", "test-form-password", "request-token-form-email", "update-profile-form-email", "password", "repeat-password", "token"];
                 for (let i = 0; i < inputs.length; i++) {
-                    //inputs[i].innerHTML = "";
-                    if (inputs[i].name != "do-this") {
-                        inputs[i].value = "";
-                    }
-                    console.log(inputs[i]);
+                    document.getElementById(inputs[i]).value = "";
                 }
             }
 
