@@ -123,7 +123,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "<button onclick='window.history.back()'>OK</button>";
     } else if ($_POST["do-this"] === "send-data-to-client") {
         $email = strtolower($_POST["email"]);
-        if (isset($_POST["username"])){
+        if (isset($_POST["username"])){ //used for processing spaid application where username key is used instead of email
             $email = $_POST["username"];
         }
         if (emailPasswordMatch($email, $_POST["password"])) {
@@ -138,7 +138,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         };
     } else if ($_POST["do-this"] === "save-contents-to-file") {
         $email = strtolower($_POST["email"]);
-        if (isset($_POST["username"])){
+        if (isset($_POST["username"])){ //used for processing spaid application where username key is used instead of email
             $email = $_POST["username"];
         }
         $filename = $_POST["filename"];
