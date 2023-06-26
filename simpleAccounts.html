@@ -139,8 +139,8 @@
                 http.timeout = 2000; // time in milliseconds
                 let email = encodeURIComponent(document.getElementById('test-form-email').value);
                 let password = encodeURIComponent(document.getElementById('test-form-password').value);
-                let url = 'https://garydavenport.com/logtime/simpleAccounts.php';
-                //let url = 'simpleAccounts.php';
+                //let url = 'https://www.myAbsoluteURLPath/simpleAccounts.php';
+                let url = 'simpleAccounts.php';
                 let params = 'email=' + email + '&password=' + password + '&do-this=test';
                 http.ontimeout = function(e) {
                     alert("The request timed out.");
@@ -160,8 +160,8 @@
                 let http = new XMLHttpRequest();
                 http.timeout = 2000; // time in milliseconds
                 let email = encodeURIComponent(document.getElementById('request-token-form-email').value);
-                let url = 'https://garydavenport.com/logtime/simpleAccounts.php';
-                //let url = 'simpleAccounts.php';
+                //let url = 'https://www.myAbsoluteURLPath/simpleAccounts.php';
+                let url = 'simpleAccounts.php';
                 let params = 'email=' + email + '&do-this=send-token';
                 http.ontimeout = function(e) {
                     alert("The request timed out.");
@@ -183,8 +183,8 @@
                 let email = encodeURIComponent(document.getElementById('update-profile-form-email').value);
                 let password = encodeURIComponent(document.getElementById('password').value);
                 let token = encodeURIComponent(document.getElementById('token').value);
-                let url = 'https://garydavenport.com/logtime/simpleAccounts.php';
-                //let url = 'simpleAccounts.php';
+                //let url = 'https://www.myAbsoluteURLPath/simpleAccounts.php';
+                let url = 'simpleAccounts.php';
                 let params = 'email=' + email + '&password=' + password + '&token=' + token + '&do-this=update-profile';
                 http.ontimeout = function(e) {
                     alert("The request timed out.");

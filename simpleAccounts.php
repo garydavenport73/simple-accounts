@@ -52,10 +52,10 @@ function unexpiredToken($email, $minutes)
 function sendToken($email)
 {
     if (!file_exists("users")) {
-        mkdir("users", 0777); //should be 0770 when publishing but can be 0777 on locally secured computer
+        mkdir("users", 0770); //should be 0640 or at the most 0770 when publishing but can be 0777 on locally secured computer
     }
     if (!file_exists("users/$email")) {
-        mkdir("users/$email", 0777); //should be 0770 when publishing but can be 0777 on locally secured computer
+        mkdir("users/$email", 0770); //should be 0640 or at the most 770 when publishing but can be 0777 on locally secured computer
     }
     $token = bin2hex(random_bytes(16));
     $hashedToken = password_hash($token, PASSWORD_DEFAULT);

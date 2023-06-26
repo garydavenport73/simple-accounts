@@ -56,15 +56,16 @@ if (($userIsVerified)&&(isset($_POST["comments"]))){
         <input type="password" id="password" name="password" required>
         <button>Submit</button>
     </form>
-    <div>
-        <p>Comment below was
-        <?php if (!$userIsVerified){echo(" not");}?>
-        added.
-        </p>
-        <?php echo("<pre>".$thisComment)."</pre><br>"?>
-        <?php if (!$userIsVerified){echo("<p>Due to invalid credentials.</p>");}?>
-    </div>
     <?php
+    if (isset($_POST['comments'])){
+        if($userIsVerified){
+        echo("<p>Comments below were added:</p>");
+        }
+        else{
+        echo("<p>Comments below were not added due to invalid credientials:</p>");
+        }
+        echo("<pre>".$thisComment."</pre>");
+    }
     ?>
 </body>
 
