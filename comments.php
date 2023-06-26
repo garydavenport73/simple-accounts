@@ -45,7 +45,7 @@ if (($userIsVerified)&&(isset($_POST["comments"]))){
 <body>
     <pre id="comment-history">
         
-<?php echo ($comments); ?>
+<?php echo (htmlspecialchars($comments)); ?>
 </pre>
     <form action="comments.php" method="post">
         <label for="comments">Comments</label>
@@ -64,7 +64,7 @@ if (($userIsVerified)&&(isset($_POST["comments"]))){
         else{
         echo("<p>Comments below were not added due to invalid credientials:</p>");
         }
-        echo("<pre>".$thisComment."</pre>");
+        echo("<pre>".htmlspecialchars($thisComment)."</pre>");
     }
     ?>
 </body>
