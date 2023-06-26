@@ -65,6 +65,9 @@ function sendToken($email)
     file_put_contents("users/$email/tokenTimestamp", $nowTimestamp);
     mail($email, "requested token", "Here is your requested token: " . $token, "From: AccountManagement");
     return $token;
+
+    //REMOVE for TESTING
+    echo($token);
 }
 
 ?>
