@@ -83,6 +83,27 @@ $webPagePart1 = "<!DOCTYPE html>
     <body>";
 $webPagePart2 = "</body>
     </html>";
+
+/*  OLD CODE FOR WHITELISTING
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        //make sure that users folder and whitelist exist
+        $email = strtolower($_POST["email"]);
+        if (!file_exists("users")) {
+            mkdir("users", 0770); //should be 0770 when publishing but can be 0777 on locally secured computer
+        }
+        if (!file_exists("users/whitelist.txt")) {
+            $tempFile = fopen("users/whitelist.txt", "w");
+            fclose($tempFile);
+        }
+    
+        //check to see if user name is in whitelist
+        $whiteList = file('users/whitelist.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        $inArray = in_array($email, $whiteList);
+        // if (true){ //can use if you want to skip whitelist check
+        if ($inArray) { //check to see if person is allowed 
+            if ($_POST["do-this"] === "test") {...*/
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($_POST["do-this"] === "test") {
         $email = strtolower($_POST["email"]);
