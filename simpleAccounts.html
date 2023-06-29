@@ -64,9 +64,9 @@
 
         <h2>Accounts:</h2>
         <nav>
-            <button id="button-test" onclick="showForms(this.id)">Test</button>
-            <button id="button-request-token" onclick="showForms(this.id)">Token</button>
-            <button id="button-update-profile" onclick="showForms(this.id)">Update</button>
+            <!-- <button id="button-test" onclick="showForms(this.id)">Test</button> -->
+            <button id="button-request-token" onclick="showForms(this.id)">Get Token</button>
+            <button id="button-update-profile" onclick="showForms(this.id)">Set Password</button>
         </nav>
         <h3 id="current-action"></h3>
 
@@ -102,7 +102,7 @@
                 // Navbar button change
                 document.getElementById("button-request-token").style.backgroundColor = "revert";
                 document.getElementById("button-update-profile").style.backgroundColor = "revert";
-                document.getElementById("button-test").style.backgroundColor = "revert";
+                // document.getElementById("button-test").style.backgroundColor = "revert";
 
                 document.getElementById(id).style.backgroundColor = "lightgrey";
                 // document.getElementById(id).style.borderColor = "black";

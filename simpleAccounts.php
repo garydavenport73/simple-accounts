@@ -67,7 +67,7 @@ function sendToken($email)
     return $token;
 
     //REMOVE for TESTING
-    echo($token);
+    echo ($token);
 }
 
 ?>
@@ -103,69 +103,98 @@ $webPagePart2 = "</body>
         if ($inArray) { //check to see if person is allowed 
             if ($_POST["do-this"] === "test") {...*/
 
+function userIsWhiteListed($post){
+    $whiteList = "";
+    //note whitelist text file must be all lowercase
+    //note if making whitelist manually, it should be in the users folder which should
+    //have permissions 640 and whitelist.txt I believe should have permissions 640 (if only reading)
+    if (!file_exists("users/whitelist.txt")) { //no whitelist exists, anyone can get account
+        return true;
+    } else { //whitelist exists, make sure user is whitelisted
+        //get file containing whitelist
+        $whiteList = file('users/whitelist.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+        //make sure email was sent
+        if (isset($post["email"])) {
+            $email = strtolower($post["email"]);
+            $email = trim($email);
+            $inArray = in_array($email, $whiteList);
+            if ($inArray) {
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+    }
+    return false; //shouldn't be able to get here
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if ($_POST["do-this"] === "test") {
-        $email = strtolower($_POST["email"]);
-        if (emailPasswordMatch($email, $_POST["password"])) {
-            echo "Credentials verified.";
-        } else {
-            echo "Credentials are invalid.";
-        };
-    } else if ($_POST["do-this"] === "update-profile") {
-        $email = strtolower($_POST["email"]);
-        $token = $_POST["token"];
-        if (emailTokenMatch($email, $token) && unexpiredToken($email, 10)) {
-            file_put_contents("users/$email/password", password_hash($_POST["password"], PASSWORD_DEFAULT));
-            unlink("users/$email/token");
-            echo "Request was successful.";
-        } else {
-            echo "Request was not succuessful.";
-        }
-    } else if ($_POST["do-this"] === "send-token") { //send a token
-        $email = strtolower($_POST["email"]);
-        if (unexpiredToken("$email", 10)) {
-            //do nothing
-        } else {
-            $token = sendToken($email);
-        }
-        echo "A request to send a token to $email has been made.  " .
-            "Check your email $email for the token." . // "(testing purposes: $token).  " .
-            "Tokens are good for 10 minutes.  " .
-            "(Note: if a token has already been issued in the last 10 minutes, another will not be sent.)";
-    } else if ($_POST["do-this"] === "send-data-to-client") {
-        $email = strtolower($_POST["email"]);
-        if (isset($_POST["username"])){ //used for processing spaid application where username key is used instead of email
-            $email = $_POST["username"];
-        }
-        if (emailPasswordMatch($email, $_POST["password"])) {
-            $filename = $_POST["filename"];
-            if (!file_exists("users/$email/data/$filename")) {
-                echo "File not found.";
+    if (userIsWhiteListed($_POST)) {
+        if ($_POST["do-this"] === "test") {
+            $email = strtolower($_POST["email"]);
+            if (emailPasswordMatch($email, $_POST["password"])) {
+                echo "Credentials verified.";
             } else {
-                echo file_get_contents("users/$email/data/$filename");
+                echo "Credentials are invalid.";
+            };
+        } else if ($_POST["do-this"] === "update-profile") {
+            $email = strtolower($_POST["email"]);
+            $token = $_POST["token"];
+            if (emailTokenMatch($email, $token) && unexpiredToken($email, 10)) {
+                file_put_contents("users/$email/password", password_hash($_POST["password"], PASSWORD_DEFAULT));
+                unlink("users/$email/token");
+                echo "Request was successful.";
+            } else {
+                echo "Request was not succuessful.";
             }
-        } else {
-            echo "Request rejected.";
-        };
-    } else if ($_POST["do-this"] === "save-contents-to-file") {
-        $email = strtolower($_POST["email"]);
-        if (isset($_POST["username"])){ //used for processing spaid application where username key is used instead of email
-            $email = $_POST["username"];
-        }
-        $filename = $_POST["filename"];
-        $contents = $_POST["contents"];
-        //if (emailPasswordMatch($email, $_POST["password"])) {
-        //limits to only one single allowable file and under 1 MB.
-        if ((emailPasswordMatch($email, $_POST["password"])  && ($filename === "data.txt") && (strlen($contents) < 1048576))) {
-            if (!file_exists("users/$email/data")) {
-                mkdir("users/$email/data", 0777); //should be 0770 when publishing but can be 0777 on locally secured computer
+        } else if ($_POST["do-this"] === "send-token") { //send a token
+            $email = strtolower($_POST["email"]);
+            if (unexpiredToken("$email", 10)) {
+                //do nothing
+            } else {
+                $token = sendToken($email);
             }
-            file_put_contents("users/$email/data/$filename", $contents);
-            echo "Request was successful.";
-        } else {
-            echo "Request was not successful.";
+            echo "A request to send a token to $email has been made.  " .
+                "Check your email $email for the token." . // "(testing purposes: $token).  " .
+                "Tokens are good for 10 minutes.  " .
+                "(Note: if a token has already been issued in the last 10 minutes, another will not be sent.)";
+        } else if ($_POST["do-this"] === "send-data-to-client") {
+            $email = strtolower($_POST["email"]);
+            if (isset($_POST["username"])) { //used for processing spaid application where username key is used instead of email
+                $email = $_POST["username"];
+            }
+            if (emailPasswordMatch($email, $_POST["password"])) {
+                $filename = $_POST["filename"];
+                if (!file_exists("users/$email/data/$filename")) {
+                    echo "File not found.";
+                } else {
+                    echo file_get_contents("users/$email/data/$filename");
+                }
+            } else {
+                echo "Request rejected.";
+            };
+        } else if ($_POST["do-this"] === "save-contents-to-file") {
+            $email = strtolower($_POST["email"]);
+            if (isset($_POST["username"])) { //used for processing spaid application where username key is used instead of email
+                $email = $_POST["username"];
+            }
+            $filename = $_POST["filename"];
+            $contents = $_POST["contents"];
+            //if (emailPasswordMatch($email, $_POST["password"])) {
+            //limits to only one single allowable file and under 1 MB.
+            if ((emailPasswordMatch($email, $_POST["password"])  && ($filename === "data.txt") && (strlen($contents) < 1048576))) {
+                if (!file_exists("users/$email/data")) {
+                    mkdir("users/$email/data", 0777); //should be 0770 when publishing but can be 0777 on locally secured computer
+                }
+                file_put_contents("users/$email/data/$filename", $contents);
+                echo "Request was successful.";
+            } else {
+                echo "Request was not successful.";
+            }
         }
+    } else {
+        echo "You must contact the administrator to allow account access or creation.";
     }
 }
 ?>
