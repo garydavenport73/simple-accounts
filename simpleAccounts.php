@@ -107,7 +107,9 @@ function userIsWhiteListed($post){
     $whiteList = "";
     //note whitelist text file must be all lowercase
     //note if making whitelist manually, it should be in the users folder which should
-    //have permissions 640 and whitelist.txt I believe should have permissions 640 (if only reading)
+    //have permissions 640 and 
+    //whitelist.txt should have permissions 400 if creating manually
+
     if (!file_exists("users/whitelist.txt")) { //no whitelist exists, anyone can get account
         return true;
     } else { //whitelist exists, make sure user is whitelisted
